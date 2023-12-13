@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "EDm9GWd7r4rOu7U2PXmyI6HtK4ySFbZHKQDRvgHAUQo3s0YVHjlxCmUmgddRVeFqGWa8HwUlz/1gryQz0s8fjw==",
+  "success": true,
+  "projectFilePath": "/home/zayaan/College/CompSci/cp/cp.csproj",
+  "expectedPackageFiles": [
+    "/home/zayaan/.nuget/packages/microsoft.aspnetcore.app.ref/7.0.10/microsoft.aspnetcore.app.ref.7.0.10.nupkg.sha512"
+  ],
+  "logs": []
+}
