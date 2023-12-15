@@ -18,6 +18,10 @@ namespace BattleBoats
         {
             return false;
         }
+        public override bool CheckSunk()
+        {
+            return false;
+        }
         public override bool CheckVictory()
         {
             return false;

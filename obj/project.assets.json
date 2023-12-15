@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/zayaan/College/CompSci/cp/cp.csproj",
+      "projectUniqueName": "/home/zayaan/proj/battle-boats/cp.csproj",
       "projectName": "cp",
-      "projectPath": "/home/zayaan/College/CompSci/cp/cp.csproj",
+      "projectPath": "/home/zayaan/proj/battle-boats/cp.csproj",
       "packagesPath": "/home/zayaan/.nuget/packages/",
-      "outputPath": "/home/zayaan/College/CompSci/cp/obj/",
+      "outputPath": "/home/zayaan/proj/battle-boats/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/zayaan/.nuget/NuGet/NuGet.Config"
@@ -57,7 +57,7 @@
         "downloadDependencies": [
           {
             "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[7.0.10, 7.0.10]"
+            "version": "[7.0.14, 7.0.14]"
           }
         ],
         "frameworkReferences": {
@@ -65,7 +65,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.110/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.404/RuntimeIdentifierGraph.json"
       }
     }
   }
