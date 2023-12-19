@@ -16,21 +16,16 @@ namespace BattleBoats
         public const int Width = 8;
         public const int height = 8;
         public const string InstructionsPath = "./Documentation/Instructions.txt";
+        public struct boat
+        {
+            public int quantity;
+            public int length;
+        }
+        public List<boat> Fleet = new List<boat>()
+        {
+          new boat() {quantity = 1, length = 4},
+          new boat() {quantity = 2, length = 3},
+          new boat() {quantity = 3, length = 2},
+        };
     }
-
-    // The head of a fleet would be the captain so it makes sense
-    public abstract class Captain
-    {
-
-        // public Tile[,] ComputerMap = new Tile[Constants.height, Constants.Width];
-        // public Tile[,] PlayerMap = new Tile[Constants.height, Constants.Width];
-        public Tile[,] Map = new Tile[Constants.height, Constants.Width];
-        public abstract Tile[,] SetShipPos(Tile[,] Map);
-        public abstract (int, int) ChooseTarget();
-        public abstract bool CheckHit();
-        public abstract bool CheckSunk();
-        public abstract bool CheckVictory();
-    }
-
-
 }

@@ -4,7 +4,7 @@ namespace BattleBoats
 
     public class Display
     {
-        public static void Render(Tile[,] PlayerMap)
+        public static void Draw(Tile[,] PlayerMap)
         {
             // decorations are currently hardcoded but I will make them not hardcoded in future
             Console.Clear();
@@ -26,6 +26,23 @@ namespace BattleBoats
             Console.WriteLine("       /          \\");
             Console.WriteLine("     _/_          _\\_");
             Console.WriteLine("\n     Esc - Main Menu");
+        }
+
+        public static void RenderLoop(Tile[,] PlayerMap, Tile[,] ComputerMap)
+        {
+            bool playerTurn = true;
+            while (true)
+            {
+                if (playerTurn) { Player.Turn(); }
+                else { Computer.Turn(); }
+                playerTurn ^= true;
+
+                Display.Draw(PlayerMap);
+                Thread.Sleep(100);
+
+                var input = Console.ReadKey();
+                if (input.Key == ConsoleKey.Escape) { Menu.ShowGameMenu(PlayerMap, ComputerMap); }
+            }
         }
 
         static void SetColor(Tile Tile)
