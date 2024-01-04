@@ -6,8 +6,8 @@ namespace BattleBoats
         {
             GenMap(PlayerMap);
             GenMap(ComputerMap);
-            PlayerMap = Player.SetShipPos(PlayerMap);
-
+            Player player = new Player();
+            PlayerMap = player.SetShipPos(PlayerMap);
             bool playerTurn = true;
             while (true)
             {

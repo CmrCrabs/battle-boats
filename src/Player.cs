@@ -5,7 +5,6 @@ namespace BattleBoats
         public static void Turn() { }
         public override Tile[,] SetShipPos(Tile[,] PlayerMap)
         {
-
             return PlayerMap;
         }
         public override (int, int) ChooseTarget()
