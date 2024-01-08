@@ -7,7 +7,7 @@ namespace BattleBoats
         {
             return ComputerMap;
         }
-        public override (int, int) ChooseTarget()
+        public override (int, int) ChooseTarget(Tile[,] ComputerMap, Tile[,] PlayerMap)
         {
             int x = 0;
             int y = 0;

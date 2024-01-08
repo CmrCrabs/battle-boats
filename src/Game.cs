@@ -9,8 +9,8 @@ namespace BattleBoats
 
             Player player = new Player();
             PlayerMap = player.SetShipPos(PlayerMap, ComputerMap);
-            Display.Draw(PlayerMap);
-            Thread.Sleep(5000);
+            (int, int) real = player.ChooseTarget(PlayerMap, ComputerMap);
+            // make clear what turn it is and whats happpening (temp modify the display to show text and then add it in )
 
             bool playerTurn = true;
             while (true)

@@ -28,12 +28,8 @@ namespace BattleBoats
                     bool rotation = false;
                     while (!placed)
                     {
-
                         Prev_Coordinate = Coordinate;
                         Display.Draw(BufferMap);
-                        Console.WriteLine("Prev: " + Prev_Coordinate);
-                        Console.WriteLine("Current: " + Coordinate);
-
 
                         var input = Console.ReadKey();
                         switch (input.Key)
@@ -117,11 +113,66 @@ namespace BattleBoats
         }
 
 
-        public override (int, int) ChooseTarget()
+        public override (int, int) ChooseTarget(Tile[,] PlayerMap, Tile[,] ComputerMap)
         {
-            int x = 0;
-            int y = 0;
-            return (x, y);
+            bool TargetSelected = false;
+            (int, int) Coordinate = (0, 0);
+            (int, int) Prev_Coordinate = (0, 0);
+            Tile[,] BufferMap = new Tile[Constants.Height, Constants.Width];
+            Tile[,] EmptyMap = new Tile[Constants.Height, Constants.Width];
+            Game.GenMap(EmptyMap);
+            Game.GenMap(BufferMap);
+            BufferMap[Coordinate.Item1, Coordinate.Item2] = Tile.Using;
+
+            while (!TargetSelected)
+            {
+                Prev_Coordinate = Coordinate;
+                Display.Draw(BufferMap);
+                var input = Console.ReadKey();
+                switch (input.Key)
+                {
+                    case ConsoleKey.Enter:
+                        if ((Coordinate.Item1 < Constants.Height && Coordinate.Item1 >= 0) && ((Coordinate.Item2) <= Constants.Width && Coordinate.Item2 >= 0))
+                        {
+                            TargetSelected = true;
+                        }
+                        break;
+
+                    case ConsoleKey.W:
+                    case ConsoleKey.UpArrow:
+                        if (Coordinate.Item1 > 0) { Coordinate.Item1 -= 1; }
+                        break;
+
+                    case ConsoleKey.A:
+                    case ConsoleKey.LeftArrow:
+                        if ((Coordinate.Item2 > 0)) { Coordinate.Item2 -= 1; }
+                        break;
+
+                    case ConsoleKey.S:
+                    case ConsoleKey.DownArrow:
+                        if (Coordinate.Item1 < (Constants.Height - 1)) { Coordinate.Item1 += 1; }
+                        break;
+
+                    case ConsoleKey.D:
+                    case ConsoleKey.RightArrow:
+                        if (Coordinate.Item2 < (Constants.Width - 1)) { Coordinate.Item2 += 1; }
+                        break;
+
+                    case ConsoleKey.Escape:
+                        Menu.ShowGameMenu(PlayerMap, ComputerMap);
+                        break;
+
+                    default:
+                        break;
+                }
+
+                Console.WriteLine(Coordinate);
+                BufferMap[Prev_Coordinate.Item1, Prev_Coordinate.Item2] = EmptyMap[Prev_Coordinate.Item1, Prev_Coordinate.Item2];
+                BufferMap[Coordinate.Item1, Coordinate.Item2] = Tile.Using;
+            }
+
+
+            return Coordinate;
         }
     }
 }

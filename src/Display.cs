@@ -8,6 +8,7 @@ namespace BattleBoats
         {
             // decorations are currently hardcoded but I will make them not hardcoded in future
             // make look better NOW.
+            // output a Color Key 
             Console.Clear();
             Console.WriteLine("       Battle Boats");
             Console.WriteLine("_|_______________________|_ ");

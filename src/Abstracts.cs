@@ -5,7 +5,7 @@ namespace BattleBoats
     {
         public Tile[,] Map;
         public abstract Tile[,] SetShipPos(Tile[,] Map, Tile[,] Map2);
-        public abstract (int, int) ChooseTarget();
+        public abstract (int, int) ChooseTarget(Tile[,] Map, Tile[,] Map2);
 
         public bool CoordinateIsValid((int, int) Coordinate, Tile[,] PlayerMap, bool Rotation, int length)
         {
