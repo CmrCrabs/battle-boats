@@ -32,13 +32,13 @@ namespace BattleBoats
                 case true:
                     for (int i = 0; i < length; i++)
                     {
-                        if ((PlayerMap[Coordinate.Item1, Coordinate.Item2 + i] != Tile.Boat)) { valid = true; };
+                        if ((PlayerMap[Coordinate.Item1, Coordinate.Item2 + i] != Tile.Boat)) { valid = true; } else { valid = false; };
                     }
                     break;
                 case false:
                     for (int i = 0; i < length; i++)
                     {
-                        if ((PlayerMap[Coordinate.Item1 + i, Coordinate.Item2] != Tile.Boat)) { valid = true; };
+                        if ((PlayerMap[Coordinate.Item1 + i, Coordinate.Item2] != Tile.Boat)) { valid = true; } else { valid = false; };
                     }
                     break;
             }

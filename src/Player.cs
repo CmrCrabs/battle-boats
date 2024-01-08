@@ -3,6 +3,8 @@ namespace BattleBoats
     public class Player : Captain
     {
         public static void Turn() { }
+
+
         public override Tile[,] SetShipPos(Tile[,] PlayerMap, Tile[,] ComputerMap)
         {
             foreach (var boat in Constants.Fleet)
@@ -38,7 +40,6 @@ namespace BattleBoats
                         {
                             case ConsoleKey.Enter:
                                 if (PlacementIsValid(PlayerMap, rotation, Coordinate, boat.length)) { placed = true; }
-                                placed = true;
                                 break;
 
                             case ConsoleKey.W:
@@ -114,6 +115,8 @@ namespace BattleBoats
             }
             return PlayerMap;
         }
+
+
         public override (int, int) ChooseTarget()
         {
             int x = 0;
