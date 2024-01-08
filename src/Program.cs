@@ -4,8 +4,8 @@
     {
         static void Main(string[] args)
         {
-            Tile[,] PlayerMap = new Tile[Constants.height, Constants.Width];
-            Tile[,] ComputerMap = new Tile[Constants.height, Constants.Width];
+            Tile[,] PlayerMap = new Tile[Constants.Height, Constants.Width];
+            Tile[,] ComputerMap = new Tile[Constants.Height, Constants.Width];
             Menu.ShowMenu(PlayerMap, ComputerMap);
         }
     }

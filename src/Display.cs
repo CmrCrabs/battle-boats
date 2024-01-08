@@ -7,10 +7,11 @@ namespace BattleBoats
         public static void Draw(Tile[,] PlayerMap)
         {
             // decorations are currently hardcoded but I will make them not hardcoded in future
+            // make look better NOW.
             Console.Clear();
             Console.WriteLine("       Battle Boats");
             Console.WriteLine("_|_______________________|_ ");
-            for (int i = 0; i < Constants.height; i++)
+            for (int i = 0; i < Constants.Height; i++)
             {
                 Console.Write(" |");
                 for (int j = 0; j < Constants.Width; j++)
@@ -22,7 +23,7 @@ namespace BattleBoats
                 }
                 Console.WriteLine();
             }
-            Console.WriteLine("_|_______________________|_");
+            Console.WriteLine("-|-----------------------|-");
             Console.WriteLine("       /          \\");
             Console.WriteLine("     _/_          _\\_");
             Console.WriteLine("\n     Esc - Main Menu");
@@ -56,10 +57,10 @@ namespace BattleBoats
                     Console.ForegroundColor = ConsoleColor.DarkBlue;
                     break;
                 case Tile.Boat:
-                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
                     break;
                 case Tile.Wreckage:
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.ForegroundColor = ConsoleColor.Black;
                     break;
                 case Tile.Hit:
                     Console.ForegroundColor = ConsoleColor.Red;

@@ -3,7 +3,7 @@ namespace BattleBoats
     public class Computer : Captain
     {
         public static void Turn() { }
-        public override Tile[,] SetShipPos(Tile[,] ComputerMap)
+        public override Tile[,] SetShipPos(Tile[,] ComputerMap, Tile[,] PlayerMap)
         {
             return ComputerMap;
         }

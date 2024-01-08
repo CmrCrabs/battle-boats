@@ -6,8 +6,12 @@ namespace BattleBoats
         {
             GenMap(PlayerMap);
             GenMap(ComputerMap);
+
             Player player = new Player();
-            PlayerMap = player.SetShipPos(PlayerMap);
+            PlayerMap = player.SetShipPos(PlayerMap, ComputerMap);
+            Display.Draw(PlayerMap);
+            Thread.Sleep(5000);
+
             bool playerTurn = true;
             while (true)
             {
@@ -29,7 +33,7 @@ namespace BattleBoats
 
         public static Tile[,] GenMap(Tile[,] Map)
         {
-            for (int i = 0; i < Constants.height; i++)
+            for (int i = 0; i < Constants.Height; i++)
             {
                 for (int j = 0; j < Constants.Width; j++)
                 {
@@ -42,5 +46,6 @@ namespace BattleBoats
             }
             return Map;
         }
+
     }
 }

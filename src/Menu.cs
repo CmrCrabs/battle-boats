@@ -18,13 +18,19 @@ namespace BattleBoats
                     break;
                 case ConsoleKey.D3:
                     ReadInstructions();
-                    var input = Console.ReadKey();
-                    if (input.Key == ConsoleKey.Escape) { Menu.ShowMenu(PlayerMap, ComputerMap); }
+                    while (true)
+                    {
+                        var input = Console.ReadKey();
+                        if (input.Key == ConsoleKey.Escape) { break; }
+                        Menu.ReadInstructions();
+                    }
+                    Menu.ShowMenu(PlayerMap, ComputerMap);
                     break;
                 case ConsoleKey.D4:
                     System.Environment.Exit(-1);
                     break;
                 default:
+                    Menu.ShowMenu(PlayerMap, ComputerMap);
                     Console.WriteLine("bad input");
                     break;
             }
