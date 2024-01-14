@@ -2,14 +2,14 @@ namespace BattleBoats
 {
     public class Computer : Captain
     {
-        public override void Turn(List<BoatMap> FleetMap, Tile[,] ComputerMap, Tile[,] PlayerMap)
+        public override void Turn(Data data)
         {
-            (int, int) Coordinate = ChooseTarget(ComputerMap, PlayerMap);
-            if (Hit(PlayerMap, Coordinate))
+            (int, int) Coordinate = ChooseTarget(data);
+            if (Hit(data.PlayerMap, Coordinate))
             {
-                if (Sunk(FleetMap, PlayerMap, Coordinate))
+                if (Sunk(data.PlayerFleetMap, data.PlayerMap, Coordinate))
                 {
-                    if (Victory(FleetMap, PlayerMap))
+                    if (Victory(data.PlayerFleetMap, data.PlayerMap))
                     {
                         while (true)
                         {
@@ -20,10 +20,10 @@ namespace BattleBoats
             }
             else
             {
-                PlayerMap[Coordinate.Item1, Coordinate.Item2] = Tile.Miss;
+                data.PlayerMap[Coordinate.Item1, Coordinate.Item2] = Tile.Miss;
             }
         }
-        public override Tile[,] SetShipPos(Tile[,] ComputerMap, Tile[,] PlayerMap, List<BoatMap> FleetMap)
+        public override Tile[,] SetShipPos(Data data)
         {
             foreach (var boat in Constants.Fleet)
             {
@@ -38,8 +38,8 @@ namespace BattleBoats
                         bool rotation = rand.NextDouble() >= 0.5;
 
                         if (
-                              CoordinateIsValid(Coordinate, ComputerMap, rotation, boat.length)
-                              && PlacementIsValid(ComputerMap, rotation, Coordinate, boat.length)
+                              CoordinateIsValid(Coordinate, data.ComputerMap, rotation, boat.length)
+                              && PlacementIsValid(data.ComputerMap, rotation, Coordinate, boat.length)
                               && RotationIsValid(rotation, Coordinate, boat.length)
                             )
                         {
@@ -48,15 +48,15 @@ namespace BattleBoats
                             boatmap.Coordinate = Coordinate;
                             boatmap.Length = boat.length;
                             boatmap.Rotation = rotation;
-                            FleetMap.Add(boatmap);
+                            data.ComputerFleetMap.Add(boatmap);
                             switch (rotation)
                             {
                                 case true:
-                                    for (int j = 0; j < boat.length; j++) { ComputerMap[Coordinate.Item1, Coordinate.Item2 + j] = Tile.Boat; }
+                                    for (int j = 0; j < boat.length; j++) { data.ComputerMap[Coordinate.Item1, Coordinate.Item2 + j] = Tile.Boat; }
                                     break;
 
                                 case false:
-                                    for (int j = 0; j < boat.length; j++) { ComputerMap[Coordinate.Item1 + j, Coordinate.Item2] = Tile.Boat; }
+                                    for (int j = 0; j < boat.length; j++) { data.ComputerMap[Coordinate.Item1 + j, Coordinate.Item2] = Tile.Boat; }
                                     break;
                             }
                             placed = true;
@@ -66,9 +66,9 @@ namespace BattleBoats
 
                 }
             }
-            return ComputerMap;
+            return data.ComputerMap;
         }
-        public override (int, int) ChooseTarget(Tile[,] ComputerMap, Tile[,] PlayerMap)
+        public override (int, int) ChooseTarget(Data data)
         {
             bool TargetSelected = false;
             (int, int) Coordinate = (0, 0);
@@ -76,7 +76,7 @@ namespace BattleBoats
             {
                 Random rand = new Random();
                 Coordinate = (rand.Next(0, Constants.Width), rand.Next(0, Constants.Height));
-                if ((Coordinate.Item1 >= 0 && Coordinate.Item1 < Constants.Height) && (Coordinate.Item2 >= 0 && Coordinate.Item2 < Constants.Width) && (ComputerMap[Coordinate.Item1, Coordinate.Item2] != Tile.Hit || ComputerMap[Coordinate.Item1, Coordinate.Item2] != Tile.Wreckage)) { TargetSelected = true; }
+                if ((Coordinate.Item1 >= 0 && Coordinate.Item1 < Constants.Height) && (Coordinate.Item2 >= 0 && Coordinate.Item2 < Constants.Width) && (data.ComputerMap[Coordinate.Item1, Coordinate.Item2] != Tile.Hit || data.ComputerMap[Coordinate.Item1, Coordinate.Item2] != Tile.Wreckage)) { TargetSelected = true; }
             }
             return Coordinate;
         }

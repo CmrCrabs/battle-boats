@@ -12,9 +12,9 @@ namespace BattleBoats
         }
 
         public Tile[,] Map;
-        public abstract void Turn(List<BoatMap> FleetMap, Tile[,] Map1, Tile[,] Map2);
-        public abstract Tile[,] SetShipPos(Tile[,] Map, Tile[,] Map2, List<BoatMap> FleetMap);
-        public abstract (int, int) ChooseTarget(Tile[,] Map, Tile[,] Map2);
+        public abstract void Turn(Data data);
+        public abstract Tile[,] SetShipPos(Data data);
+        public abstract (int, int) ChooseTarget(Data data);
 
         public bool CoordinateIsValid((int, int) Coordinate, Tile[,] Map, bool Rotation, int length)
         {

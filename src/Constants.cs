@@ -15,6 +15,7 @@ namespace BattleBoats
     {
         public const int Width = 8; public const int Height = 8;
         public const string InstructionsPath = "./Documentation/Instructions.txt";
+        public const string SaveGamePath = "./savegame.json";
         public struct boat
         {
             public int quantity;

@@ -1,34 +1,51 @@
 namespace BattleBoats
 {
+    public class Data
+    {
+        public Tile[,] PlayerMap = new Tile[Constants.Height, Constants.Width];
+        public Tile[,] ComputerMap = new Tile[Constants.Height, Constants.Width];
+        public List<Captain.BoatMap> PlayerFleetMap = new List<Captain.BoatMap>();
+        public List<Captain.BoatMap> ComputerFleetMap = new List<Captain.BoatMap>();
+    }
+
     public class Game
     {
-        public static void New(Tile[,] PlayerMap, Tile[,] ComputerMap)
+        public static void NewGame()
         {
-            GenMap(PlayerMap);
-            GenMap(ComputerMap);
+            Data data = new Data();
+            GenMap(data.PlayerMap);
+            GenMap(data.ComputerMap);
 
             Player player = new Player();
-            List<Captain.BoatMap> PlayerFleetMap = new List<Captain.BoatMap>();
-            PlayerMap = player.SetShipPos(PlayerMap, ComputerMap, PlayerFleetMap);
-            Computer computer = new Computer();
-            List<Captain.BoatMap> ComputerFleetMap = new List<Captain.BoatMap>();
-            ComputerMap = computer.SetShipPos(ComputerMap, PlayerMap, ComputerFleetMap);
+            data.PlayerMap = player.SetShipPos(data);
 
+            Computer computer = new Computer();
+            data.ComputerMap = computer.SetShipPos(data);
+
+            Game.Run(player, computer, data);
+        }
+
+        public static void LoadGame()
+        {
+            Data data = Load.LoadGame();
+            Player player = new Player();
+            Computer computer = new Computer();
+            Game.Run(player, computer, data);
+        }
+
+        public static void Run(Player player, Computer computer, Data data)
+        {
             // while true is valid here as passing back a endflag is more bloat then while (true) 
             while (true) // <-- peak
             {
-                player.Turn(ComputerFleetMap, PlayerMap, ComputerMap);
-                computer.Turn(PlayerFleetMap, ComputerMap, PlayerMap);
-                Display.Draw(PlayerMap, "Your Board", "Above Are The Results Of The Computers Turn");
+                player.Turn(data);
+                computer.Turn(data);
+                Display.Draw(data.PlayerMap, "Your Board", "Above Are The Results Of The Computers Turn");
                 Console.WriteLine("Press Any Key To Begin Firing");
                 var input = Console.ReadKey();
-                if (input.Key == ConsoleKey.Escape) { Menu.ShowGameMenu(PlayerMap, ComputerMap); }
+                if (input.Key == ConsoleKey.Escape) { Save.SaveGame(data); Menu.ShowGameMenu(data); }
             }
         }
-
-        public static void Load() { }
-
-        public static void Save() { }
 
         public static Tile[,] GenMap(Tile[,] Map)
         {
@@ -45,6 +62,5 @@ namespace BattleBoats
             }
             return Map;
         }
-
     }
 }

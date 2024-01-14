@@ -2,14 +2,14 @@ namespace BattleBoats
 {
     public class Player : Captain
     {
-        public override void Turn(List<BoatMap> FleetMap, Tile[,] PlayerMap, Tile[,] ComputerMap)
+        public override void Turn(Data data)
         {
-            (int, int) Coordinate = ChooseTarget(PlayerMap, ComputerMap);
-            if (Hit(ComputerMap, Coordinate))
+            (int, int) Coordinate = ChooseTarget(data);
+            if (Hit(data.ComputerMap, Coordinate))
             {
-                if (Sunk(FleetMap, ComputerMap, Coordinate))
+                if (Sunk(data.ComputerFleetMap, data.ComputerMap, Coordinate))
                 {
-                    if (Victory(FleetMap, ComputerMap))
+                    if (Victory(data.ComputerFleetMap, data.ComputerMap))
                     {
                         while (true)
                         {
@@ -20,11 +20,11 @@ namespace BattleBoats
             }
             else
             {
-                ComputerMap[Coordinate.Item1, Coordinate.Item2] = Tile.Miss;
+                data.ComputerMap[Coordinate.Item1, Coordinate.Item2] = Tile.Miss;
             }
         }
 
-        public override Tile[,] SetShipPos(Tile[,] PlayerMap, Tile[,] ComputerMap, List<BoatMap> FleetMap)
+        public override Tile[,] SetShipPos(Data data)
         {
             string log = "";
             foreach (var boat in Constants.Fleet)
@@ -36,7 +36,7 @@ namespace BattleBoats
                     {
                         for (int n = 0; n < Constants.Width; n++)
                         {
-                            BufferMap[m, n] = PlayerMap[m, n];
+                            BufferMap[m, n] = data.PlayerMap[m, n];
                         }
                     }
 
@@ -55,31 +55,32 @@ namespace BattleBoats
                         switch (input.Key)
                         {
                             case ConsoleKey.Enter:
-                                if (PlacementIsValid(PlayerMap, rotation, Coordinate, boat.length)) { placed = true; } else { log = "Invalid Placement"; }
+                                if (PlacementIsValid(data.PlayerMap, rotation, Coordinate, boat.length)) { placed = true; } else { log = "Invalid Placement"; }
                                 break;
 
                             case ConsoleKey.W:
                             case ConsoleKey.UpArrow:
-                                if (CoordinateIsValid((Coordinate.Item1 - 1, Coordinate.Item2), PlayerMap, rotation, boat.length)) { Coordinate.Item1 -= 1; };
+                                if (CoordinateIsValid((Coordinate.Item1 - 1, Coordinate.Item2), data.PlayerMap, rotation, boat.length)) { Coordinate.Item1 -= 1; };
                                 break;
 
                             case ConsoleKey.A:
                             case ConsoleKey.LeftArrow:
-                                if (CoordinateIsValid((Coordinate.Item1, Coordinate.Item2 - 1), PlayerMap, rotation, boat.length)) { Coordinate.Item2 -= 1; };
+                                if (CoordinateIsValid((Coordinate.Item1, Coordinate.Item2 - 1), data.PlayerMap, rotation, boat.length)) { Coordinate.Item2 -= 1; };
                                 break;
 
                             case ConsoleKey.S:
                             case ConsoleKey.DownArrow:
-                                if (CoordinateIsValid((Coordinate.Item1 + 1, Coordinate.Item2), PlayerMap, rotation, boat.length)) { Coordinate.Item1 += 1; };
+                                if (CoordinateIsValid((Coordinate.Item1 + 1, Coordinate.Item2), data.PlayerMap, rotation, boat.length)) { Coordinate.Item1 += 1; };
                                 break;
 
                             case ConsoleKey.D:
                             case ConsoleKey.RightArrow:
-                                if (CoordinateIsValid((Coordinate.Item1, Coordinate.Item2 + 1), PlayerMap, rotation, boat.length)) { Coordinate.Item2 += 1; };
+                                if (CoordinateIsValid((Coordinate.Item1, Coordinate.Item2 + 1), data.PlayerMap, rotation, boat.length)) { Coordinate.Item2 += 1; };
                                 break;
 
                             case ConsoleKey.Escape:
-                                Menu.ShowGameMenu(PlayerMap, ComputerMap);
+                                Save.SaveGame(data);
+                                Menu.ShowGameMenu(data);
                                 break;
                             case ConsoleKey.R:
                                 if (RotationIsValid(rotation, Coordinate, boat.length))
@@ -88,10 +89,10 @@ namespace BattleBoats
                                     switch (rotation)
                                     {
                                         case true:
-                                            for (int i = 0; i < boat.length; i++) { BufferMap[Prev_Coordinate.Item1 + i, Prev_Coordinate.Item2] = PlayerMap[Prev_Coordinate.Item1 + i, Prev_Coordinate.Item2]; }
+                                            for (int i = 0; i < boat.length; i++) { BufferMap[Prev_Coordinate.Item1 + i, Prev_Coordinate.Item2] = data.PlayerMap[Prev_Coordinate.Item1 + i, Prev_Coordinate.Item2]; }
                                             break;
                                         case false:
-                                            for (int i = 0; i < boat.length; i++) { BufferMap[Prev_Coordinate.Item1, Prev_Coordinate.Item2 + i] = PlayerMap[Prev_Coordinate.Item1, Prev_Coordinate.Item2 + i]; }
+                                            for (int i = 0; i < boat.length; i++) { BufferMap[Prev_Coordinate.Item1, Prev_Coordinate.Item2 + i] = data.PlayerMap[Prev_Coordinate.Item1, Prev_Coordinate.Item2 + i]; }
                                             break;
                                     }
                                 }
@@ -103,12 +104,12 @@ namespace BattleBoats
                         switch (rotation)
                         {
                             case true:
-                                for (int i = 0; i < boat.length; i++) { BufferMap[Prev_Coordinate.Item1, Prev_Coordinate.Item2 + i] = PlayerMap[Prev_Coordinate.Item1, Prev_Coordinate.Item2 + i]; }
+                                for (int i = 0; i < boat.length; i++) { BufferMap[Prev_Coordinate.Item1, Prev_Coordinate.Item2 + i] = data.PlayerMap[Prev_Coordinate.Item1, Prev_Coordinate.Item2 + i]; }
                                 for (int i = 0; i < boat.length; i++) { BufferMap[Coordinate.Item1, Coordinate.Item2 + i] = Tile.Using; }
                                 break;
 
                             case false:
-                                for (int i = 0; i < boat.length; i++) { BufferMap[Prev_Coordinate.Item1 + i, Prev_Coordinate.Item2] = PlayerMap[Prev_Coordinate.Item1 + i, Prev_Coordinate.Item2]; }
+                                for (int i = 0; i < boat.length; i++) { BufferMap[Prev_Coordinate.Item1 + i, Prev_Coordinate.Item2] = data.PlayerMap[Prev_Coordinate.Item1 + i, Prev_Coordinate.Item2]; }
                                 for (int i = 0; i < boat.length; i++) { BufferMap[Coordinate.Item1 + i, Coordinate.Item2] = Tile.Using; }
                                 break;
                         }
@@ -118,11 +119,11 @@ namespace BattleBoats
                             switch (rotation)
                             {
                                 case true:
-                                    for (int i = 0; i < boat.length; i++) { PlayerMap[Coordinate.Item1, Coordinate.Item2 + i] = Tile.Boat; }
+                                    for (int i = 0; i < boat.length; i++) { data.PlayerMap[Coordinate.Item1, Coordinate.Item2 + i] = Tile.Boat; }
                                     break;
 
                                 case false:
-                                    for (int i = 0; i < boat.length; i++) { PlayerMap[Coordinate.Item1 + i, Coordinate.Item2] = Tile.Boat; }
+                                    for (int i = 0; i < boat.length; i++) { data.PlayerMap[Coordinate.Item1 + i, Coordinate.Item2] = Tile.Boat; }
                                     break;
                             }
                             // doing via a seperate data structure instead of all in one should in theory be more performant as less read writes would have to be done
@@ -130,17 +131,17 @@ namespace BattleBoats
                             boatmap.Coordinate = Coordinate;
                             boatmap.Length = boat.length;
                             boatmap.Rotation = rotation;
-                            FleetMap.Add(boatmap);
+                            data.PlayerFleetMap.Add(boatmap);
                             log = "Boat Placed";
                         }
                     }
                 }
             }
-            return PlayerMap;
+            return data.PlayerMap;
         }
 
 
-        public override (int, int) ChooseTarget(Tile[,] PlayerMap, Tile[,] ComputerMap)
+        public override (int, int) ChooseTarget(Data data)
         {
             string log = "";
             bool TargetSelected = false;
@@ -150,14 +151,14 @@ namespace BattleBoats
             Game.GenMap(BufferMap);
             Tile[,] EmptyMap = new Tile[Constants.Height, Constants.Width];
             Game.GenMap(EmptyMap);
-            for (int i = 0; i < ComputerMap.GetLength(0); i++)
+            for (int i = 0; i < data.ComputerMap.GetLength(0); i++)
             {
-                for (int j = 0; j < ComputerMap.GetLength(1); j++)
+                for (int j = 0; j < data.ComputerMap.GetLength(1); j++)
                 {
                     // potentially use switch here, but yeah
-                    if (ComputerMap[i, j] == Tile.Miss) { EmptyMap[i, j] = Tile.Miss; }
-                    else if (ComputerMap[i, j] == Tile.Wreckage) { EmptyMap[i, j] = Tile.Wreckage; }
-                    else if (ComputerMap[i, j] == Tile.Hit) { EmptyMap[i, j] = Tile.Hit; }
+                    if (data.ComputerMap[i, j] == Tile.Miss) { EmptyMap[i, j] = Tile.Miss; }
+                    else if (data.ComputerMap[i, j] == Tile.Wreckage) { EmptyMap[i, j] = Tile.Wreckage; }
+                    else if (data.ComputerMap[i, j] == Tile.Hit) { EmptyMap[i, j] = Tile.Hit; }
                 }
             }
             BufferMap = (Tile[,])EmptyMap.Clone();
@@ -171,7 +172,8 @@ namespace BattleBoats
                 switch (input.Key)
                 {
                     case ConsoleKey.Enter:
-                        if ((Coordinate.Item1 < Constants.Height && Coordinate.Item1 >= 0) && ((Coordinate.Item2) <= Constants.Width && Coordinate.Item2 >= 0) && ComputerMap[Coordinate.Item1, Coordinate.Item2] != Tile.Hit && ComputerMap[Coordinate.Item1, Coordinate.Item2] != Tile.Wreckage && ComputerMap[Coordinate.Item1, Coordinate.Item2] != Tile.Hit && ComputerMap[Coordinate.Item1, Coordinate.Item2] != Tile.Miss)
+                        // im sorry
+                        if ((Coordinate.Item1 < Constants.Height && Coordinate.Item1 >= 0) && ((Coordinate.Item2) <= Constants.Width && Coordinate.Item2 >= 0) && data.ComputerMap[Coordinate.Item1, Coordinate.Item2] != Tile.Hit && data.ComputerMap[Coordinate.Item1, Coordinate.Item2] != Tile.Wreckage && data.ComputerMap[Coordinate.Item1, Coordinate.Item2] != Tile.Hit && data.ComputerMap[Coordinate.Item1, Coordinate.Item2] != Tile.Miss)
                         {
                             TargetSelected = true;
                         }
@@ -202,7 +204,8 @@ namespace BattleBoats
                         break;
 
                     case ConsoleKey.Escape:
-                        Menu.ShowGameMenu(PlayerMap, ComputerMap);
+                        Save.SaveGame(data);
+                        Menu.ShowGameMenu(data);
                         break;
 
                     default:
