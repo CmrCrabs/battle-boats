@@ -9,7 +9,6 @@ namespace BattleBoats
             {
                 if (Sunk(FleetMap, ComputerMap, Coordinate))
                 {
-                    Console.WriteLine("YIPPIE");
                     if (Victory(FleetMap, ComputerMap))
                     {
                         while (true)
@@ -27,6 +26,7 @@ namespace BattleBoats
 
         public override Tile[,] SetShipPos(Tile[,] PlayerMap, Tile[,] ComputerMap, List<BoatMap> FleetMap)
         {
+            string log = "";
             foreach (var boat in Constants.Fleet)
             {
                 for (int j = 0; j < boat.quantity; j++)
@@ -49,13 +49,13 @@ namespace BattleBoats
                     while (!placed)
                     {
                         Prev_Coordinate = Coordinate;
-                        Display.Draw(BufferMap, "Placing Boats");
+                        Display.Draw(BufferMap, "Placing Boats", log);
 
                         var input = Console.ReadKey();
                         switch (input.Key)
                         {
                             case ConsoleKey.Enter:
-                                if (PlacementIsValid(PlayerMap, rotation, Coordinate, boat.length)) { placed = true; }
+                                if (PlacementIsValid(PlayerMap, rotation, Coordinate, boat.length)) { placed = true; } else { log = "Invalid Placement"; }
                                 break;
 
                             case ConsoleKey.W:
@@ -125,11 +125,13 @@ namespace BattleBoats
                                     for (int i = 0; i < boat.length; i++) { PlayerMap[Coordinate.Item1 + i, Coordinate.Item2] = Tile.Boat; }
                                     break;
                             }
+                            // doing via a seperate data structure instead of all in one should in theory be more performant as less read writes would have to be done
                             var boatmap = new BoatMap();
                             boatmap.Coordinate = Coordinate;
                             boatmap.Length = boat.length;
                             boatmap.Rotation = rotation;
                             FleetMap.Add(boatmap);
+                            log = "Boat Placed";
                         }
                     }
                 }
@@ -140,6 +142,7 @@ namespace BattleBoats
 
         public override (int, int) ChooseTarget(Tile[,] PlayerMap, Tile[,] ComputerMap)
         {
+            string log = "";
             bool TargetSelected = false;
             (int, int) Coordinate = (0, 0);
             (int, int) Prev_Coordinate = (0, 0);
@@ -163,14 +166,18 @@ namespace BattleBoats
             while (!TargetSelected)
             {
                 Prev_Coordinate = Coordinate;
-                Display.Draw(BufferMap, "Choosing Target");
+                Display.Draw(BufferMap, "Choosing Target", log);
                 var input = Console.ReadKey();
                 switch (input.Key)
                 {
                     case ConsoleKey.Enter:
-                        if ((Coordinate.Item1 < Constants.Height && Coordinate.Item1 >= 0) && ((Coordinate.Item2) <= Constants.Width && Coordinate.Item2 >= 0) && (ComputerMap[Coordinate.Item1, Coordinate.Item2] != Tile.Hit || ComputerMap[Coordinate.Item1, Coordinate.Item2] != Tile.Wreckage || ComputerMap[Coordinate.Item1, Coordinate.Item2] != Tile.Hit))
+                        if ((Coordinate.Item1 < Constants.Height && Coordinate.Item1 >= 0) && ((Coordinate.Item2) <= Constants.Width && Coordinate.Item2 >= 0) && ComputerMap[Coordinate.Item1, Coordinate.Item2] != Tile.Hit && ComputerMap[Coordinate.Item1, Coordinate.Item2] != Tile.Wreckage && ComputerMap[Coordinate.Item1, Coordinate.Item2] != Tile.Hit && ComputerMap[Coordinate.Item1, Coordinate.Item2] != Tile.Miss)
                         {
                             TargetSelected = true;
+                        }
+                        else
+                        {
+                            log = "Selected Target Is Invalid";
                         }
                         break;
 

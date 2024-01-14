@@ -19,9 +19,8 @@ namespace BattleBoats
             {
                 player.Turn(ComputerFleetMap, PlayerMap, ComputerMap);
                 computer.Turn(PlayerFleetMap, ComputerMap, PlayerMap);
-                // Display.Draw(PlayerMap, "Computers Turn..");
-                Display.Draw(ComputerMap, "real");
-                Console.WriteLine(" Press Any Key To Continue");
+                Display.Draw(PlayerMap, "Your Board", "Above Are The Results Of The Computers Turn");
+                Console.WriteLine("Press Any Key To Begin Firing");
                 var input = Console.ReadKey();
                 if (input.Key == ConsoleKey.Escape) { Menu.ShowGameMenu(PlayerMap, ComputerMap); }
             }

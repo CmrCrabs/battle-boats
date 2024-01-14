@@ -8,6 +8,7 @@ namespace BattleBoats
             public (int, int) Coordinate;
             public int Length;
             public bool Rotation;
+            public bool Sunk;
         }
 
         public Tile[,] Map;
@@ -18,7 +19,6 @@ namespace BattleBoats
         public bool CoordinateIsValid((int, int) Coordinate, Tile[,] Map, bool Rotation, int length)
         {
             bool valid = false;
-
             switch (Rotation)
             {
                 case true:
@@ -40,13 +40,13 @@ namespace BattleBoats
                 case true:
                     for (int i = 0; i < length; i++)
                     {
-                        if ((Map[Coordinate.Item1, Coordinate.Item2 + i] != Tile.Boat)) { valid = true; } else { valid = false; };
+                        if ((Map[Coordinate.Item1, Coordinate.Item2 + i] != Tile.Boat)) { valid = true; } else { valid = false; break; };
                     }
                     break;
                 case false:
                     for (int i = 0; i < length; i++)
                     {
-                        if ((Map[Coordinate.Item1 + i, Coordinate.Item2] != Tile.Boat)) { valid = true; } else { valid = false; };
+                        if ((Map[Coordinate.Item1 + i, Coordinate.Item2] != Tile.Boat)) { valid = true; } else { valid = false; break; };
                     }
                     break;
             }
@@ -83,20 +83,24 @@ namespace BattleBoats
         public bool Sunk(List<BoatMap> FleetMap, Tile[,] Map, (int, int) Coordinate)
         {
             bool sunk = false;
-            foreach (var boat in FleetMap)
+            int j = 0;
+            var BufferFleet = new List<BoatMap>();
+            BufferFleet.AddRange(FleetMap);
+
+            foreach (var boat in BufferFleet)
             {
                 switch (boat.Rotation)
                 {
                     case true:
                         for (int i = 0; i < boat.Length; i++)
                         {
-                            if (Map[boat.Coordinate.Item1, boat.Coordinate.Item2 + i] == Tile.Hit) { sunk = true; } else { sunk = false; }
+                            if (Map[boat.Coordinate.Item1, boat.Coordinate.Item2 + i] == Tile.Hit) { sunk = true; } else { sunk = false; break; }
                         }
                         break;
                     case false:
                         for (int i = 0; i < boat.Length; i++)
                         {
-                            if (Map[boat.Coordinate.Item1 + i, boat.Coordinate.Item2] == Tile.Hit) { sunk = true; } else { sunk = false; }
+                            if (Map[boat.Coordinate.Item1 + i, boat.Coordinate.Item2] == Tile.Hit) { sunk = true; } else { sunk = false; break; }
                         }
                         break;
                 }
@@ -111,25 +115,26 @@ namespace BattleBoats
                             for (int i = 0; i < boat.Length; i++) { Map[boat.Coordinate.Item1 + i, boat.Coordinate.Item2] = Tile.Wreckage; }
                             break;
                     }
+                    var BufferBoat = FleetMap[j];
+                    BufferBoat.Sunk = true;
+                    FleetMap[j] = BufferBoat;
+                    break;
                 }
+                j++;
             }
             return sunk;
         }
         // only checked upon sinking of a boat so does not need to be overly performant
         public bool Victory(List<BoatMap> FleetMap, Tile[,] Map)
         {
-            int boatTotal = 0;
-            int boatCount = 0;
-            bool victory = false;
-            foreach (var boat in FleetMap) { boatTotal += boat.Length; }
-            for (int i = 0; i < Map.GetLength(0); i++)
+            bool victory = true;
+            foreach (var boat in FleetMap)
             {
-                for (int j = 0; j < Map.GetLength(1); j++)
+                if (boat.Sunk == false)
                 {
-                    if (Map[i, j] == Tile.Wreckage) { boatCount++; }
+                    victory = false;
                 }
             }
-            if (boatCount == boatTotal) { victory = true; }
             return victory;
         }
 
