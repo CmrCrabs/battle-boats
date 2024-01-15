@@ -26,7 +26,7 @@ namespace BattleBoats
             Console.WriteLine("       /          \\");
             Console.WriteLine("     _/_          _\\_");
             Console.WriteLine("\n    Esc - Main Menu");
-            if (log == "")
+            if (string.IsNullOrEmpty(log))
             {
                 Console.WriteLine("Incoming Message: No Message");
             }
@@ -37,6 +37,7 @@ namespace BattleBoats
 
             static void SetColor(Tile Tile)
             {
+                // use the il
                 switch (Tile)
                 {
                     case Tile.Empty1:

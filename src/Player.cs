@@ -96,6 +96,10 @@ namespace BattleBoats
                                             break;
                                     }
                                 }
+                                else
+                                {
+                                    log = "Rotation Is Invalid";
+                                }
                                 break;
 
                             default:

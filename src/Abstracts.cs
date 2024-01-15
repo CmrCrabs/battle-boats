@@ -21,6 +21,7 @@ namespace BattleBoats
             bool valid = false;
             switch (Rotation)
             {
+                // use a silly if (coordinate.item1 is < Constants.Height and >= 0)
                 case true:
                     if ((Coordinate.Item1 < Constants.Height && Coordinate.Item1 >= 0) && ((Coordinate.Item2 + length) <= Constants.Width && Coordinate.Item2 >= 0)) { valid = true; }
                     break;

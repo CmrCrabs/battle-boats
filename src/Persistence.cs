@@ -7,7 +7,7 @@ namespace BattleBoats
         public static void SaveGame(Data data)
         {
             File.Create(Constants.SaveGamePath).Close();
-            string json = Json.Convert.SerialiseObject(data);
+            string json = JsonConvert.SerializeObject(data);
             File.WriteAllText(Constants.SaveGamePath, string.Empty);
             File.WriteAllText(Constants.SaveGamePath, json);
         }
