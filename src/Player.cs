@@ -11,10 +11,9 @@ namespace BattleBoats
                 {
                     if (Victory(data.ComputerFleetMap, data.ComputerMap))
                     {
-                        while (true)
-                        {
-                            Console.WriteLine("yippie!!!");
-                        }
+                        Console.Clear();
+                        Console.WriteLine("Player Wins.");
+                        System.Environment.Exit(-1);
                     }
                 }
             }

@@ -11,10 +11,9 @@ namespace BattleBoats
                 {
                     if (Victory(data.PlayerFleetMap, data.PlayerMap))
                     {
-                        while (true)
-                        {
-                            Console.WriteLine("crying cat emoji!!!");
-                        }
+                        Console.Clear();
+                        Console.WriteLine("Computer Wins.");
+                        System.Environment.Exit(-1);
                     }
                 }
             }
