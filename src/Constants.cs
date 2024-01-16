@@ -9,11 +9,13 @@ namespace BattleBoats
         Hit,
         Miss,
         Using,
+        Buffer,
     }
 
     public class Constants
     {
-        public const int Width = 8; public const int Height = 8;
+        public const int Width = 8;
+        public const int Height = 8;
         public const string InstructionsPath = "./Documentation/Instructions.txt";
         public const string SaveGamePath = "./savegame.json";
         public const int WindowWidth = 100;
