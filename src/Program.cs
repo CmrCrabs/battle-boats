@@ -12,7 +12,7 @@
             }
             else
             {
-                Console.WriteLine("\n\nPlease ensure terminal is of adequate size in order to fit the following UI. Press Any Key To Continue");
+                Console.WriteLine("Please ensure terminal is of adequate size in order to fit the following UI. Press Any Key To Continue");
                 Console.ReadKey();
             }
             Menu.ShowMenu();
