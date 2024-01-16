@@ -2,11 +2,13 @@ namespace BattleBoats
 {
     public class Menu
     {
+        // the choice to below have show menu and show game menu as seperate functions is intentional due to them having different options and function calling logic
         public static void ShowMenu()
         {
             Console.Clear();
             Console.WriteLine("Menu:\n1 - New Game\n2 - Load Game\n3 - View Instructions\n4- Quit");
 
+            // specifically chose to use readkey over readline, as it reduces input parsing complexity and also allows the user to skip having to press enter, creating a more seamless experience
             var choice = Console.ReadKey();
             switch (choice.Key)
             {
@@ -18,6 +20,7 @@ namespace BattleBoats
                     break;
                 case ConsoleKey.D3:
                     ReadInstructions();
+                    // while true is valid here as passing a escape flag is more effort than its worth, primarily due to the order of operations here. it could be argued that its 'incorrect' programming practice however a carpenter that is scared of using their own tools is but a common man 
                     while (true)
                     {
                         var input = Console.ReadKey();
@@ -27,7 +30,8 @@ namespace BattleBoats
                     Menu.ShowMenu();
                     break;
                 case ConsoleKey.D4:
-                    System.Environment.Exit(-1);
+                    // exit code zero in order to indicate a successful exit to OS
+                    System.Environment.Exit(0);
                     break;
                 default:
                     Menu.ShowMenu();
@@ -39,6 +43,7 @@ namespace BattleBoats
         public static void ReadInstructions()
         {
             Console.Clear();
+            // stored as a seperate file for easy interchangeability and to prevent unneccessary loading into memory of a large string
             Console.WriteLine(File.ReadAllText(Constants.InstructionsPath));
             Console.WriteLine("Esc - Return To Main Menu");
         }
@@ -60,13 +65,13 @@ namespace BattleBoats
                     break;
                 case ConsoleKey.D3:
                     Save.SaveGame(data);
-                    System.Environment.Exit(-1);
+                    // exit code zero in order to indicate successful exit
+                    System.Environment.Exit(0);
                     break;
                 default:
-                    Console.WriteLine("bad input");
+                    // handles all other cases by doing nothing
                     break;
             }
-
         }
     }
 }

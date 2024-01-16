@@ -36,6 +36,7 @@
 16. this menu will allow the player to either continue the game, read the instructions or save and exit the game.
 17. as in the main menu, if the instructions option is selected the program will display the "Instructions.txt" file located in ./Documentation/ to the player 
 18. the player may then exit the instructions by pressing escape, returning to the menu.
+19. the game will be able to be controlled via either the arrow, or WASD Keys, as detailed in the instructions
 
 = Planning
 #figure(
@@ -98,12 +99,11 @@ Done via newtonsoft.json. instead of manually creating my own formatting for sav
 = Technical Solution
 
 == Foreword
-The C\# Code & All Documentation can be accessed at the #link("https://github.com/cmrcrabs/battle-boats", [Git Repo]) and further is attached in a zip file to the teams assignment. Below listed is each file with its commented code and, a brief explanation on the purpose of the file.
+The C\# Code & All Documentation can be accessed at the #link("https://github.com/cmrcrabs/battle-boats", [Git Repo]) and further is attached in a zip file to the teams assignment. Below listed is each file with its commented code and, a brief explanation on the purpose of the file. Note that there exists a somewhat extensive version control history, however due to an incident involving a lack of patience and \-\-force, the history is cut off abruptly around the time of a somewhat major rewrite.
 
 == Program.cs
 ```cs 
 ```
-
 == Menu.cs
 
 == Constants.cs
@@ -123,3 +123,5 @@ The C\# Code & All Documentation can be accessed at the #link("https://github.co
 = Testing
 
 = Evaluation
+computer ai 
+create universal ui not hardcoded to specific size (not difficult just skipped due to time constraints)
