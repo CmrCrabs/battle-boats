@@ -37,7 +37,7 @@
 17. as in the main menu, if the instructions option is selected the program will display the "Instructions.txt" file located in ./Documentation/ to the player 
 18. the player may then exit the instructions by pressing escape, returning to the menu.
 19. the game will be able to be controlled via either the arrow, or WASD Keys, as detailed in the instructions
-
+#pagebreak()
 = Planning
 #figure(
 image("/Assets/mockup.png", width: 35%),
@@ -45,6 +45,7 @@ image("/Assets/mockup.png", width: 35%),
     Initial Mockup
   ],
 )
+#pagebreak()
 = Documented Design
 
 == Function Heirarchy
@@ -55,6 +56,7 @@ image("/Assets/heirarchy.svg", width: 120%),
   ],
 )
 
+#pagebreak()
 == Configurable Parameters (Constants)
 There are a few configurable parameters that will globally change the way the game will function. these consist of the following:
 - width: the width of the playable game space
@@ -62,7 +64,6 @@ There are a few configurable parameters that will globally change the way the ga
 - window width: the width of the terminal, used for visual purposes, only works on windows
 - window height: the height of the terminal, used for visual purposes, only works on windows
 - Fleet: a list of the struct boat, used to determine whats boats are placeable for the player / computer. these can be changed and will work throughout the program, and is defined by the quantity of each boat, and the total length of said boat.
-
 == Data Structures
 Tile: an enumerable, used primarily for rendering / logical purposes in order to better store the map data. Consists of the following:
 - Empty1 & Empty2: logically the same, used for denoting that the cell is empty. The reasoning for 2 is to create the slight visual effect of a wave, by having a light and dark colour for the wave.
@@ -71,6 +72,7 @@ Tile: an enumerable, used primarily for rendering / logical purposes in order to
 - Hit: Where a boat has been hit by a shot 
 - Miss: where a shot has missed any boats 
 - Using: no technical purpose, used to visually show what cell is currently being occupied by the 'cursor'
+
 
 Boat:
 - a struct used in the <Fleet>, that stores the quantity and length of each individual boat. This is used to determine what boats can be placed and the size of them.
@@ -87,6 +89,7 @@ Captain:
 - an abstract class, used to create a form of 'template' that is then further used to create both the player and computer implementations. 
 - An abstract class is useful as it allows you to define abstract functions; ie functions that are just declared and not initialised. it also allows you define shared private functions, that can only be accessible by classes that inherit this abstract.
 
+#pagebreak()
 == Imports
 
 Newtonsoft.json:
@@ -96,32 +99,170 @@ used for elegant serialisation and deserialisation. It allows you to convert eve
 
 Done via newtonsoft.json. instead of manually creating my own formatting for saving and loading it is done through standard json syntax. All required data is put into the Data class earlier in the program and upon serialisation, it is only that class that is saved to the file (that is specified in Constants.cs).
 
+#pagebreak()
 = Technical Solution
 
 == Foreword
-The C\# Code & All Documentation can be accessed at the #link("https://github.com/cmrcrabs/battle-boats", [Git Repo]) and further is attached in a zip file to the teams assignment. Below listed is each file with its commented code and, a brief explanation on the purpose of the file. Note that there exists a somewhat extensive version control history, however due to an incident involving a lack of patience and \-\-force, the history is cut off abruptly around the time of a somewhat major rewrite.
+The C\# Code & All Documentation can be accessed at the #link("https://github.com/cmrcrabs/battle-boats", [Git Repo]) and further is attached in a zip file to the teams assignment. Below listed is each file with its commented code and, a brief explanation on the purpose of the file. Note that there exists a somewhat extensive version control history, however due to an incident involving a lack of patience and \-\-force, the history is cut off abruptly around the time of a somewhat major rewrite. The code is not copied here as that would add an additional 18 pages to this document for no real benefit, as it would be a better experience to read the code through your preferred IDE. (vim).
 
-== Program.cs
+== Files
+=== Program.cs
+Compiler entry point, Initialises code and provides disclaimer depending on OS.
 ```cs 
 ```
-== Menu.cs
 
-== Constants.cs
+=== Menu.cs
+Allows player to decide what they wish to do and learn rules of the game. 
+```cs 
+```
+=== Constants.cs
+Serves as the 'settings' for the game, also declares key types used throughout the project.
+```cs 
+```
+=== Abstracts.cs
+Creates an abstract class implementation that is then used in Player.cs & Computer.cs
+```cs 
+```
 
-== Abstracts.cs
+=== Persistence.cs
+Provides saving and loading functionality using json
+```cs 
+```
 
-== Persistence.cs
+=== Display.cs
+Frontend for the project, outputs results of the other files
+```cs 
+```
 
-== Display.cs
+=== Game.cs
+Provides the game initialisation and loop.
+```cs 
+```
 
-== Game.cs
+=== Player.cs
+Players implementation of the Captain abstract.
+```cs 
+```
 
-== Player.cs
+=== Computer.cs
+Computers implementation of the Captain abstract.
+```cs 
+```
 
-== Computer.cs
-
+#pagebreak()
 = Testing
+== Foreword
+All testing is completed on Arch Linux, with an up to date set of kernel packages. it is completed on the kitty terminal emulator and is done using the default base16 colour scheme. the terminal font is monospace and should not affect testing. There is only 1 piece of code that should operate differently per platform and that has been validated by an external party.
 
+== Menu
+#figure(
+image("/Tests/menu-output.png", width: 35%),
+  caption: [
+    Menu Outputting correctly and not reacting to invalid inputs
+  ],
+)
+#figure(
+image("/Tests/instructions.png", width: 100%),
+  caption: [
+    Instructions
+  ],
+)
+#figure(
+image("/Tests/exiting.png", width: 50%),
+  caption: [
+    Exiting, can be seen returning to shell with no errors
+  ],
+)
+
+#pagebreak()
+== Rendering
+#figure(
+image("/Tests/output.png", width: 60%),
+  caption: [
+    Displaying Key & Grid
+  ],
+)
+#figure(
+image("/Tests/colours.png", width: 20%),
+  caption: [
+    Example with all possible colours being displayed
+  ],
+)
+#figure(
+image("/Tests/computers-turn.png", width: 100%),
+  caption: [
+    Showcase Of Results of Computers Turn
+  ],
+)
+
+#pagebreak()
+== Inputs
+#figure(
+image("/Tests/menu-output.png", width: 35%),
+  caption: [
+    Extraneous Inputs Not Doing Anything, (Difficult to show via image)
+  ],
+)
+
+== Targeting
+#figure(
+image("/Tests/invalid-target.png", width: 50%),
+  caption: [
+    Validation of if target is valid, can be seen by message. Note that the highlighted cell is a miss (is clearly known when actually playing)
+  ],
+)
+#figure(
+image("/Tests/targeting-options.png", width: 50%),
+  caption: [
+    Target Hit, Miss & Wreckage (Sunk)
+  ],
+)
+
+#pagebreak()
+== Placing
+#figure(
+image("/Tests/invalid-placement.png", width: 70%),
+  caption: [
+    Overlap Detection, shown in message
+  ],
+)
+#figure(
+image("/Tests/placements.png", width: 70%),
+  caption: [
+    Differing Sizes & Rotation
+  ],
+)
+
+#pagebreak()
+== Persistence
+#figure(
+image("/Tests/saved.png", width: 120%),
+  caption: [
+    Saving the game via menu & outputted savefile
+  ],
+)
+#figure(
+image("/Tests/loading.png", width: 100%),
+  caption: [
+    Loading, below save file corresponds to this game which can be observed if read
+  ],
+)
+#figure(
+block(fill: luma(230), inset: 8pt, radius: 4pt, width: 100%, raw(read("Tests/savegame.json"))),
+  caption: [
+    Save File Itself
+  ],
+)
+
+
+#pagebreak()
 = Evaluation
-computer ai 
-create universal ui not hardcoded to specific size (not difficult just skipped due to time constraints)
+
+Overall I think my project has solidly met or exceeded the points stated in Objectives. I also believe I completed the extensions outlined in the briefing. 
+Throughout the development of the project there were no major problems that needed solving, with the primary issue I ran into being rendering the player 'cursor' in real time.
+If given the chance to do the project again, I would consider redo-ing / improving upon the following things:
+  - Advancing the computers targeting AI, such as making it consider the previous shots and whether they were hit and misses, or even placing the boats in a more 'strategic' way, potentially with preset patterns.
+  - Create a nicer, more detailed User Interface 
+  - Create a inbuilt method to adjust the 'Settings' (the constants), so that the user can better adjust the gameplay to suit them.
+  - create a scaling UI, as, whilst all the technical parts 100% scale correctly, some of the visual flair does not.
+  - Optimisation of some particularly egregious 1 liners, primarily in some if statements.

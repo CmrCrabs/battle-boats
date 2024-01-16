@@ -38,7 +38,7 @@ namespace BattleBoats
                         (int, int) Coordinate = (rand.Next(0, Constants.Width), rand.Next(0, Constants.Height));
                         // nice implementation for randomly generating a boolean, it is possible there is a less verbose method but I couldnt find one.
                         bool rotation = rand.NextDouble() >= 0.5;
-                        
+
                         // running all checks to see if placement is valid
                         if (
                               CoordinateIsValid(Coordinate, data.ComputerMap, rotation, boat.length)
